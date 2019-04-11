@@ -1,8 +1,9 @@
-### init DB - from db shell
+### enable auth
 
 ```
 use admin
-db.createUser({user:"admin",pwd:"admin123",roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]})
+db.dropUser('admin')
+db.createUser({user:'admin',pwd:'admin123',roles:[{role:"userAdminAnyDatabase",db:"admin"},"readWriteAnyDatabase"],passwordDigestor:"server"})
 ```
 
 ### build container
