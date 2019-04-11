@@ -1,5 +1,7 @@
 ### enable auth
 
+note: it's briliant idea to do not use password `admin123` like in the example below.
+
 ```
 use admin
 db.dropUser('admin')
