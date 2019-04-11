@@ -12,12 +12,12 @@ From: centos:7
         mongod.conf /etc
 
 %help
-
 	blabla
 
 %post
-        yum -y update
-        yum -y install wget vim
+        yum -y update -x setup
+        yum -y install wget vim epel-release less util-linux
+        yum -y install supervisor numactl
         cd /tmp
         wget -nc https://repo.mongodb.org/yum/redhat/7/mongodb-org/4.0/x86_64/RPMS/mongodb-org-server-4.0.8-1.el7.x86_64.rpm #-nc means don't overwrite.
         yum -y install ./mongodb-org-server-4.0.8-1.el7.x86_64.rpm
@@ -28,33 +28,10 @@ From: centos:7
         wget -nc https://repo.mongodb.org/yum/redhat/7/mongodb-org/4.0/x86_64/RPMS/mongodb-org-shell-4.0.8-1.el7.x86_64.rpm
         yum -y install ./mongodb-org-shell-4.0.8-1.el7.x86_64.rpm
 
-#        yum -y install ./mongodb-compass-community-1.17.0.x86_64.rpm
-
-	#Setting up where data will reside
-	#kdir -p /data/db
-	#Give access to the folder
-	#hmod -R 777 /data/db
-
-	#Needed dependencies from GnuPG
-	#apt-get update && apt-get install -y gnupg
-
-	#Importing the public key
-	#apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
-
-	#Obtaining and installing MongoDB for Debian 9 (Stretch)
-	#echo "deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/4.0 main" | tee /etc/apt/sources.list.d/mongodb-org-4.0.list
-	#apt-get -y update
-	#apt-get install -y mongodb-org
-
-	#Giving access to the mongodb user from the mongodb group user (these are the defaults from MongoDB)
-	#chown -R mongodb:mongodb /data/db
-
-%startscript
-
-	#Stops the daemon if it is already running
-	#mongod --repair
-	#Starts the daemon
-	#mongod
-	#Starts the mongo shell in the hostname and port set from environment
-	#mongo --host $HOSTNAME:$PORT
+%runscript
+        echo "start"
+        mongod --repair --config /etc/mongod.conf
+        echo "repaired"
+        numactl --interleave=all mongod --config /etc/mongod.conf --auth
+        echo "finished"
 
