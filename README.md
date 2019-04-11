@@ -14,10 +14,16 @@ db.createUser({user:'admin',pwd:'admin123',roles:[{role:"userAdminAnyDatabase",d
 sudo singularity build mongodb-container.img ./mongodb-container.def
 ```
 
-### start container
+### start shell inside container
 
 ```
 singularity shell -B ./data/:/var/lib/mongo -B ./logs/:/var/log/mongodb -B ./var_run_mongodb/:/var/run/mongodb ./mongodb-container.img
+```
+
+### run container with db
+
+```
+singularity run -B ./data/:/var/lib/mongo -B ./logs/:/var/log/mongodb -B ./var_run_mongodb/:/var/run/mongodb ./mongodb-container.img
 ```
 
 ### start db in singularity shell
