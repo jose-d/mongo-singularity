@@ -1,7 +1,9 @@
 ### init DB - from db shell
 
-> use admin
-> db.createUser({user:"admin",pwd:"admin123",roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]})
+```
+use admin
+db.createUser({user:"admin",pwd:"admin123",roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]})
+```
 
 ### build container
 
