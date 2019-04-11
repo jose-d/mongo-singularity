@@ -1,8 +1,11 @@
-### init DB - from db shell
+### enable auth
+
+note: it's briliant idea to do not use password `admin123` like in the example below.
 
 ```
 use admin
-db.createUser({user:"admin",pwd:"admin123",roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]})
+db.dropUser('admin')
+db.createUser({user:'admin',pwd:'admin123',roles:[{role:"userAdminAnyDatabase",db:"admin"},"readWriteAnyDatabase"],passwordDigestor:"server"})
 ```
 
 ### build container
@@ -11,10 +14,16 @@ db.createUser({user:"admin",pwd:"admin123",roles: [ { role: "userAdminAnyDatabas
 sudo singularity build mongodb-container.img ./mongodb-container.def
 ```
 
-### start container
+### start shell inside container
 
 ```
 singularity shell -B ./data/:/var/lib/mongo -B ./logs/:/var/log/mongodb -B ./var_run_mongodb/:/var/run/mongodb ./mongodb-container.img
+```
+
+### run container with db
+
+```
+singularity run -B ./data/:/var/lib/mongo -B ./logs/:/var/log/mongodb -B ./var_run_mongodb/:/var/run/mongodb ./mongodb-container.img
 ```
 
 ### start db in singularity shell
