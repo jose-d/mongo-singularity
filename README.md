@@ -1,30 +1,30 @@
-# init DB - from db shell
+### init DB - from db shell
 
 > use admin
 > db.createUser({user:"admin",pwd:"admin123",roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]})
 
-# build container
+### build container
 
 ```
 sudo singularity build mongodb-container.img ./mongodb-container.def
 ```
 
-# start container
+### start container
 
 ```
 singularity shell -B ./data/:/var/lib/mongo -B ./logs/:/var/log/mongodb -B ./var_run_mongodb/:/var/run/mongodb ./mongodb-container.img
 ```
 
-# start db in singularity shell
+### start db in singularity shell
 
 
-## without auth:
+#### without auth:
 
 ```
 mongod --config /etc/mongod.conf
 ```
 
-## with auth set up:
+#### with auth set up:
 ```
 mongod --config /etc/mongod.conf --auth
 ```
